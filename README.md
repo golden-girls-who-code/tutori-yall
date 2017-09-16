@@ -3,5 +3,7 @@ Social network for tutorial sharing
 
 
 ## Setup Instructions
-PYTHONPATH="/Path/To/The/App"
-export PYTHONPATH
+
+Edit PYTHONPATH in .bash_profile:
+  PYTHONPATH="/Path/To/The/App"
+  export PYTHONPATH
