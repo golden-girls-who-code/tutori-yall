@@ -11,23 +11,27 @@ db_port = 27017
 links_connection = LinksConnection(db_host, db_port)
 
 
-@links_api.route('/links/<username>', methods=['POST'])
-def create_link(username):
+@links_api.route('/links/<userid>', methods=['POST'])
+def create_link(userid):
+    # TODO: if err, send response msg
+    json_request_object = request.get_json()
 
-    json = request.get_json()
-    print json
     # required args
-    title = json.get('title')
-    url = json.get('url')
-    tags = json.get('tags')
+    title = json_request_object['title']
+    url = json_request_object['url']
+    tags = json_request_object['tags']
 
     # optional args
-    description = None #request.args['description']
+    description = json_request_object.get('description')
 
     if description:
         description = str(description)
 
-    link_id = links_connection.create_link(username, title, url, tags, description=description)
+    link_id = links_connection.create_link(userid,
+                                           title,
+                                           url,
+                                           tags,
+                                           description=description)
 
     return link_id
 

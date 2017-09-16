@@ -9,24 +9,24 @@ class LinksConnection(DBConnection):
         super(LinksConnection, self).__init__(host, port, 'links')
         # TODO: indexes
 
-    def create_link(self, username, title, url, tags, description=None):
+    def create_link(self, userid, title, url, tags, description=None):
         """ Creates a link.
 
             Params:
-                username (str): The username.
+                userid (str): The username.
                 title (str): Title of the tutorial url.
                 url (str): The url of the tutorial.
                 tags (list): A list of strings.
                 description (str): Description of the tutorial (optional).
         """
 
-        link = {'username': username,
+        link = {'userid': userid,
                 'title': title,
                 'url': url,
                 'tags': tags}
 
         if description:
-            link['description']
+            link['description'] = description
 
         _id = self.connection.insert_one(link)
         return str(_id)
