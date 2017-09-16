@@ -6,7 +6,7 @@ from tutorialsharing.db.db_connection import DBConnection
 class LinksConnection(DBConnection):
 
     def __init__(self, host, port):
-        super(LinksConnection, self).__init__(host, port, 'users')
+        super(LinksConnection, self).__init__(host, port, 'links')
         # TODO: indexes
 
     def create_link(self, username, title, url, tags, description=None):
@@ -28,7 +28,8 @@ class LinksConnection(DBConnection):
         if description:
             link['description']
 
-        return self.connection.insert_one(link)
+        _id = self.connection.insert_one(link)
+        return str(_id)
 
     def get_link(self, object_id):
         query = {'_id': ObjectId(object_id)}
