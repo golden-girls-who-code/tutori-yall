@@ -1,12 +1,12 @@
-from pymongo.objectid import ObjectId
+from bson.objectid import ObjectId
 
-from connection import Connection
+from tutorialsharing.db.db_connection import DBConnection
 
 
-class LinksConnection(Connection):
+class LinksConnection(DBConnection):
 
     def __init__(self, host, port):
-        super(Connection, self).__init__(host, port, 'users')
+        super(LinksConnection, self).__init__(host, port, 'users')
         # TODO: indexes
 
     def create_link(self, username, title, url, tags, description=None):

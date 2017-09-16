@@ -1,10 +1,10 @@
-from connection import Connection
+from tutorialsharing.db.db_connection import DBConnection
 
 
-class UsersConnection(Connection):
+class UsersConnection(DBConnection):
 
     def __init__(self, host, port):
-        super(Connection, self).__init__(host, port, 'users')
+        super(UsersConnection, self).__init__(host, port, 'users')
 
     def create_user(self, username, years_of_development):
         user = {'username': username,

@@ -1,7 +1,12 @@
-from api import app
+from flask import Blueprint
+
+from tutorialsharing.db.links_connection import LinksConnection
 
 
-@app.route('/users', methods=['POST'])
+users_api = Blueprint('users_api', __name__)
+
+
+@users_api.route('/users', methods=['POST'])
 def create_user():
 
     if request.method == 'POST':
@@ -9,7 +14,7 @@ def create_user():
         years_of_dev = request.form['years_of_development']
 
 
-@app.route('/users', methods=['PUT'])
+@users_api.route('/users', methods=['PUT'])
 def update_user():
 
     if request.method == 'PUT':
@@ -17,8 +22,7 @@ def update_user():
         years_of_dev = request.form['years_of_development']
 
 
-@app.route('/users', methods=['GET'])
+@users_api.route('/users', methods=['GET'])
 def get_user():
     if request.method == 'GET':
         user = request.form['username']
-    
