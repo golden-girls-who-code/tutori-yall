@@ -15,13 +15,13 @@ links_connection = LinksConnection(db_host, db_port)
 def create_link():
 
     # required args
-    username = requests.args['username']
-    title = requests.args['title']
-    url = requests.args['url']
-    tags = requests.args['tags'].split(',')
+    username = request.args['username']
+    title = request.args['title']
+    url = request.args['url']
+    tags = request.args['tags'].split(',')
 
     # optional args
-    description = requests.args['description']
+    description = request.args['description']
 
     if description:
         description = str(description)
@@ -29,7 +29,7 @@ def create_link():
     links_connection.create_link(username, title, url, tags, description=description)
 
     # TODO response
-    return response
+    return "response"
 
 
 @links_api.route('/links', methods=['GET'])

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from tutorialsharing.api.links import links_api
 from tutorialsharing.api.users import users_api
@@ -7,6 +8,10 @@ from tutorialsharing.api.users import users_api
 app = Flask(__name__)
 app.register_blueprint(links_api)
 app.register_blueprint(users_api)
+
+
+CORS(app)
+
 
 @app.route('/', methods=['GET'])
 def get_home():
