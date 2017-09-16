@@ -10,8 +10,15 @@ class LinksConnection(Connection):
         # TODO: indexes
 
     def create_link(self, username, title, url, tags, description=None):
-        if isinstance(tags, str):
-            tags = tags.split(',')
+        """ Creates a link.
+
+            Params:
+                username (str): The username.
+                title (str): Title of the tutorial url.
+                url (str): The url of the tutorial.
+                tags (list): A list of strings.
+                description (str): Description of the tutorial (optional).
+        """
 
         link = {'username': username,
                 'title': title,
