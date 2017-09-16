@@ -42,7 +42,7 @@ class LinksConnection(DBConnection):
         if tags:
             # this is an AND operation
             # all tags must be contained in the tags field
-            query = {'tags': { '$all': tags}}
+            query = {'tags': {'$all': tags}}
 
         links = self.connection.find(query)
         return links

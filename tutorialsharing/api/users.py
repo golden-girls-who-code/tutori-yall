@@ -1,9 +1,14 @@
-from flask import Blueprint
+from flask import Blueprint, request
 
-from tutorialsharing.db.links_connection import LinksConnection
+from tutorialsharing.db.users_connection import UsersConnection
 
 
 users_api = Blueprint('users_api', __name__)
+
+
+db_host = 'localhost'
+db_port = 27017
+links_connection = UsersConnection(db_host, db_port)
 
 
 @users_api.route('/users', methods=['POST'])

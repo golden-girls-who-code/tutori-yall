@@ -28,7 +28,7 @@ class UsersConnection(DBConnection):
         ul = int(yod) + 1 # upper limit
 
         # query for similar users in years range
-        query = {"years_of_development": {"$gte": ll, "$lte": ul}}}
+        query = {"years_of_development": {"$gte": ll, "$lte": ul}}
         similar_users = self.connection.find(query)
         return users
 

@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 
 from tutorialsharing.db.links_connection import LinksConnection
 
