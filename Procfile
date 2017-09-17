@@ -1,1 +1,1 @@
-web: python ./tutorialsharing/api/run.py
+web: python2 ./tutorialsharing/api/run.py
