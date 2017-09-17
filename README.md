@@ -5,7 +5,7 @@ Social network for tutorial sharing
 
 https://tutori-yall.herokuapp.com/
 
-Example to get all links with the tag 'JavaScript':
+### Example to get all links with the tag 'JavaScript'
 https://tutori-yall.herokuapp.com/links?tags=JavaScript
 
 ## Front-end Application
