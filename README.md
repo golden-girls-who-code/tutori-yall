@@ -1,4 +1,4 @@
-# tutorial-sharing
+# Tutori Ya'll
 Social network for tutorial sharing
 
 ## Using the API
