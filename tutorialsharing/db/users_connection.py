@@ -5,8 +5,11 @@ from tutorialsharing.db.db_connection import DBConnection
 
 class UsersConnection(DBConnection):
 
-    def __init__(self, uri):
-        super(UsersConnection, self).__init__(uri, 'users')
+    def __init__(self, uri, username=None, password=None):
+        super(UsersConnection, self).__init__(uri,
+                                              'users',
+                                              username=username,
+                                              password=password)
         self._init_indexes()
 
     def _init_indexes(self):

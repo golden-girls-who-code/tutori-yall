@@ -7,8 +7,12 @@ from tutorialsharing.db.users_connection import UsersConnection
 
 class LinksConnection(DBConnection):
 
-    def __init__(self, uri):
-        super(LinksConnection, self).__init__(uri, 'links')
+    def __init__(self, uri, username=None, password=None):
+        super(LinksConnection, self).__init__(uri,
+                                              'links',
+                                              username=username,
+                                              password=password)
+
         self._users_connection = UsersConnection(uri)
         self._init_indexes()
 
