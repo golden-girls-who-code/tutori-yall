@@ -6,18 +6,21 @@ class UsersConnection(DBConnection):
     def __init__(self, host, port):
         super(UsersConnection, self).__init__(host, port, 'users')
 
-    def create_user(self, username, years_of_development):
-        user = {'username': username,
+    def create_user(self, userid, username, years_of_development):
+        user = {'userid': userid,
+                'username': username,
                 'years_of_development': int(years_of_development)}
-        self.connection.insert_one(user)
 
-    def get_user(self, username):
-        user = self.connection.find_one({"username": username})
+        _id = self.connection.insert_one(user)
+        return str(_id)
+
+    def get_user(self, userid):
+        user = self.connection.find_one({"userid": userid})
         return user
 
     def get_users(self):
-        user = self.connection.find()
-        return user
+        users = self.connection.find()
+        return users
 
     def get_similar_users(self, username):
         user = self.get_user(username)

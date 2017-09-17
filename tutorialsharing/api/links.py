@@ -38,7 +38,7 @@ def create_link(userid):
 
 
 @links_api.route('/links/<userid>', methods=['GET'])
-def get_link(userid):
+def get_links(userid):
 
     tags = request.args.get('tags')
     if tags:
