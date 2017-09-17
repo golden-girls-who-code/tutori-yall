@@ -3,7 +3,7 @@ import os
 from tutorialsharing.api.app import app
 
 
-port = os.environ.get('PORT')
+port = int(os.environ.get('PORT'))
 if not port:
     port = 4000
 
