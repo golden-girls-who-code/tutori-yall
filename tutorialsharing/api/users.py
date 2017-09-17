@@ -16,16 +16,24 @@ users_connection = UsersConnection(db_host, db_port)
 def create_user():
     json_request_object = request.get_json()
 
+    # required
     userid = json_request_object['userid']
-    username = json_request_object['username']
-    years_of_development = int(json_request_object['years_of_development'])
 
-    # need to check if that user exists first
-    if users_connection.get_user(userid):
-        # TODO: return status code, msg
-        return "User already exists"
+    # optional
+    username = json_request_object.get('username')
+    name = json_request_object.get('name')
+    avatar_url = json_request_object.get('avatar_url')
+    years_of_development = json_request_object.get('years_of_development')
 
-    return users_connection.create_user(userid, username, years_of_development)
+    if years_of_development:
+        years_of_development = int(years_of_development)
+
+    results = users_connection.save_user(userid,
+                                         username=username,
+                                         name=name,
+                                         avatar_url=avatar_url,
+                                         years_of_development=years_of_development)
+    return json_util.dumps(results)
 
 
 @users_api.route('/users/<userid>', methods=['GET'])

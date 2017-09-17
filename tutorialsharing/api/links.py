@@ -25,16 +25,13 @@ def create_link(userid):
     # optional args
     description = json_request_object.get('description')
 
-    if description:
-        description = str(description)
+    results = links_connection.save_link(userid,
+                                         title,
+                                         url,
+                                         tags,
+                                         description=description)
 
-    link_id = links_connection.create_link(userid,
-                                           title,
-                                           url,
-                                           tags,
-                                           description=description)
-
-    return link_id
+    return json_util.dumps(results)
 
 
 @links_api.route('/links/<userid>', methods=['GET'])

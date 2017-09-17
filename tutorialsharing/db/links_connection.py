@@ -1,4 +1,5 @@
 from bson.objectid import ObjectId
+from pymongo import ASCENDING
 
 from tutorialsharing.db.db_connection import DBConnection
 
@@ -7,10 +8,14 @@ class LinksConnection(DBConnection):
 
     def __init__(self, host, port):
         super(LinksConnection, self).__init__(host, port, 'links')
-        # TODO: indexes
+        self._init_indexes()
 
-    def create_link(self, userid, title, url, tags, description=None):
-        """ Creates a link.
+    def _init_indexes(self):
+        self.connection.create_index([('userid', ASCENDING)])
+        self.connection.create_index([('tags', ASCENDING)])
+
+    def save_link(self, userid, title, url, tags, description=None):
+        """ Creates or updates a link.
 
             Params:
                 userid (str): The userid.
@@ -19,17 +24,18 @@ class LinksConnection(DBConnection):
                 tags (list): A list of strings.
                 description (str): Description of the tutorial (optional).
         """
+        query = {'userid': userid, 'url': url}
 
-        link = {'userid': userid,
-                'title': title,
-                'url': url,
-                'tags': tags}
+        update_vals = {'userid': userid,
+                       'title': title,
+                       'url': url,
+                       'tags': tags}
 
         if description:
-            link['description'] = description
+            update_vals['description'] = description
 
-        _id = self.connection.insert_one(link)
-        return str(_id)
+        results = self.connection.update(query, {'$set': update_vals}, upsert=True)
+        return results
 
     def get_link(self, object_id):
         query = {'_id': ObjectId(object_id)}
@@ -41,15 +47,12 @@ class LinksConnection(DBConnection):
         # TODO: get similar users first
 
         if tags:
-            # this is an AND operation
+            # this is an AND operation meaning
             # all tags must be contained in the tags field
             query = {'tags': {'$all': tags}}
 
         cursor = self.connection.find(query).limit(limit)
         return cursor
-
-    def update_link(self, object_id):
-        pass
 
     def delete_link(self, object_id):
         query = {'_id': ObjectId(object_id)}

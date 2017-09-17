@@ -1,3 +1,5 @@
+from pymongo import ASCENDING
+
 from tutorialsharing.db.db_connection import DBConnection
 
 
@@ -5,14 +7,36 @@ class UsersConnection(DBConnection):
 
     def __init__(self, host, port):
         super(UsersConnection, self).__init__(host, port, 'users')
+        self._init_indexes()
 
-    def create_user(self, userid, username, years_of_development):
-        user = {'userid': userid,
-                'username': username,
-                'years_of_development': int(years_of_development)}
+    def _init_indexes(self):
+        self.connection.create_index([('userid', ASCENDING)], unique=True)
+        self.connection.create_index([('years_of_development', ASCENDING)])
 
-        _id = self.connection.insert_one(user)
-        return str(_id)
+    def save_user(self,
+                  userid,
+                  username=None,
+                  name=None,
+                  avatar_url=None,
+                  years_of_development=None):
+
+        query = {'userid': userid}
+        update_vals = {'userid': userid}
+
+        if username:
+            update_vals['username'] = username
+
+        if name:
+            update_vals['name'] = name
+
+        if avatar_url:
+            update_vals['avatar_url'] = avatar_url
+
+        if years_of_development:
+            update_vals['years_of_development'] = int(years_of_development)
+
+        results = self.connection.update(query, {'$set': update_vals}, upsert=True)
+        return results
 
     def get_user(self, userid):
         user = self.connection.find_one({"userid": userid})
@@ -22,8 +46,8 @@ class UsersConnection(DBConnection):
         users = self.connection.find()
         return users
 
-    def get_similar_users(self, username):
-        user = self.get_user(username)
+    def get_similar_users(self, userid):
+        user = self.get_user(userid)
 
         # create years range
         yod = user['years_of_development']
@@ -33,9 +57,6 @@ class UsersConnection(DBConnection):
         # query for similar users in years range
         query = {"years_of_development": {"$gte": ll, "$lte": ul}}
         similar_users = self.connection.find(query)
-        return users
 
-    def update_user(self, username, years_of_development):
-        query = {'username': username}
-        update_vals = {'years_of_development': years_of_development}
-        return self.connection.upsert(query, update_vals)
+        # TODO: don't want to return the original user info
+        return users
