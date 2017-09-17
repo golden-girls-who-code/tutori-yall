@@ -13,8 +13,9 @@ class LinksConnection(DBConnection):
         self._init_indexes()
 
     def _init_indexes(self):
-        self.connection.create_index([('userid', ASCENDING)])
-        self.connection.create_index([('tags', ASCENDING)])
+        pass
+        #self.connection.create_index([('userid', ASCENDING)])
+        #self.connection.create_index([('tags', ASCENDING)])
 
     def save_link(self, userid, title, url, tags, description=None):
         """ Creates or updates a link.

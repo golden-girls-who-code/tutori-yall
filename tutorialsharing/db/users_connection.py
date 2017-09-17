@@ -10,8 +10,9 @@ class UsersConnection(DBConnection):
         self._init_indexes()
 
     def _init_indexes(self):
-        self.connection.create_index([('userid', ASCENDING)], unique=True)
-        self.connection.create_index([('years_of_development', ASCENDING)])
+        pass
+        #self.connection.create_index([('userid', ASCENDING)], unique=True)
+        #self.connection.create_index([('years_of_development', ASCENDING)])
 
     def save_user(self,
                   userid,
