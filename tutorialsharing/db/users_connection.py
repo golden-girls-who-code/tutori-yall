@@ -5,8 +5,8 @@ from tutorialsharing.db.db_connection import DBConnection
 
 class UsersConnection(DBConnection):
 
-    def __init__(self, host, port):
-        super(UsersConnection, self).__init__(host, port, 'users')
+    def __init__(self, uri):
+        super(UsersConnection, self).__init__(uri, 'users')
         self._init_indexes()
 
     def _init_indexes(self):

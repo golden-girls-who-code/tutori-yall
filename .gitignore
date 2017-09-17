@@ -2,3 +2,4 @@
 ve
 *.pyc
 secret.py
+override_config.py

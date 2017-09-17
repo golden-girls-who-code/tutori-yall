@@ -1,15 +1,15 @@
 from bson import json_util
 from flask import Blueprint, request
 
+try:
+    from tutorialsharing.override_config import db_uri
+except:
+    from tutorialsharing.config import db_uri
 from tutorialsharing.db.links_connection import LinksConnection
 
 
 links_api = Blueprint('links_api', __name__)
-
-
-db_host = 'localhost'
-db_port = 27017
-links_connection = LinksConnection(db_host, db_port)
+links_connection = LinksConnection(db_uri)
 
 
 @links_api.route('/links/<userid>', methods=['POST'])

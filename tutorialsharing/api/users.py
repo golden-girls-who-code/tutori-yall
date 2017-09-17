@@ -3,15 +3,15 @@ from flask import Blueprint, request, jsonify
 import requests
 from tutorialsharing.secret import client_secret, client_id
 
+try:
+    from tutorialsharing.override_config import db_uri
+except:
+    from tutorialsharing.config import db_uri
 from tutorialsharing.db.users_connection import UsersConnection
 
 
 users_api = Blueprint('users_api', __name__)
-
-
-db_host = 'localhost'
-db_port = 27017
-users_connection = UsersConnection(db_host, db_port)
+users_connection = UsersConnection(db_uri)
 
 
 @users_api.route('/users', methods=['POST'])
@@ -68,5 +68,3 @@ def login():
                    user_id=str(user_info['id']),
                    avatar_url=user_info['avatar_url'])
     return resp
-
-
