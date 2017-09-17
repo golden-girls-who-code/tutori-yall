@@ -44,12 +44,10 @@ def get_link(userid):
     if tags:
         tags = tags.split(',')
 
-    limit = 100
+    limit = int(request.args.get('limit', 100))
 
     cursor = links_connection.get_links(userid, tags=tags, limit=limit)
-
     return json_util.dumps(list(cursor))
-    # get links associated with a user
 
 
 @links_api.route('/links', methods=['PUT'])
