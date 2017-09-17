@@ -1,3 +1,4 @@
+from bson import json_util
 from flask import Blueprint, request
 
 from tutorialsharing.db.links_connection import LinksConnection
@@ -36,9 +37,18 @@ def create_link(userid):
     return link_id
 
 
-@links_api.route('/links', methods=['GET'])
-def get_link():
-    return "LINKS"
+@links_api.route('/links/<userid>', methods=['GET'])
+def get_link(userid):
+
+    tags = request.args.get('tags')
+    if tags:
+        tags = tags.split(',')
+
+    limit = 100
+
+    cursor = links_connection.get_links(userid, tags=tags, limit=limit)
+
+    return json_util.dumps(list(cursor))
     # get links associated with a user
 
 

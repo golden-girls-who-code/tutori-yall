@@ -13,7 +13,7 @@ class LinksConnection(DBConnection):
         """ Creates a link.
 
             Params:
-                userid (str): The username.
+                userid (str): The userid.
                 title (str): Title of the tutorial url.
                 url (str): The url of the tutorial.
                 tags (list): A list of strings.
@@ -35,18 +35,18 @@ class LinksConnection(DBConnection):
         query = {'_id': ObjectId(object_id)}
         return self.connection.find_one(query)
 
-    def get_links(self, username, tags=None):
-        query = {}
+    def get_links(self, userid, tags=None, limit=100):
+        query = {'userid': userid}
 
-        # TODO: have to get similar users first
+        # TODO: get similar users first
 
         if tags:
             # this is an AND operation
             # all tags must be contained in the tags field
             query = {'tags': {'$all': tags}}
 
-        links = self.connection.find(query)
-        return links
+        cursor = self.connection.find(query).limit(limit)
+        return cursor
 
     def update_link(self, object_id):
         pass
