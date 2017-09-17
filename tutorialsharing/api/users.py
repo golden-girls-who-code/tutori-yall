@@ -1,7 +1,14 @@
+import requests
+import os
+
 from bson import json_util
 from flask import Blueprint, request, jsonify
-import requests
-from tutorialsharing.secret import client_secret, client_id
+
+try:
+    from tutorialsharing.secret import client_secret, client_id
+except:
+    client_secret = os.environ['AUTHCLIENT']
+    client_id = os.environ['AUTHCLIENTID']
 
 try:
     from tutorialsharing.override_config import db_uri
