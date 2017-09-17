@@ -1,5 +1,7 @@
 from bson import json_util
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
+import requests
+from tutorialsharing.secret import client_secret, client_id
 
 from tutorialsharing.db.users_connection import UsersConnection
 
@@ -49,3 +51,22 @@ def get_users():
 @users_api.route('/users', methods=['PUT'])
 def update_user():
     pass
+
+
+@users_api.route('/login', methods=['POST'])
+def login():
+    code = request.get_json()['code']
+    post_data = {'client_id': client_id,
+                 'client_secret':  client_secret,
+                 'code': code}
+    response = requests.post('https://github.com/login/oauth/access_token', data=post_data)
+    print response.text
+    # access_token = dict(parse_qs(response.text))['access_token'][0]
+    access_token = response.text.split('&')[0].split('=')[1]
+    user_info = requests.get('https://api.github.com/user?access_token={}'.format(access_token)).json()
+    resp = jsonify(username= user_info['login'],
+                   user_id=str(user_info['id']),
+                   avatar_url=user_info['avatar_url'])
+    return resp
+
+
