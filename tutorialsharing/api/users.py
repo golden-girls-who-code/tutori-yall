@@ -10,12 +10,13 @@ except:
     client_secret = os.environ['AUTHCLIENT']
     client_id = os.environ['AUTHCLIENTID']
 
-from tutorialsharing.config import db_uri, db_username, db_password
+from tutorialsharing.config import db_uri, db_name, db_username, db_password
 from tutorialsharing.db.users_connection import UsersConnection
 
 
 users_api = Blueprint('users_api', __name__)
 users_connection = UsersConnection(db_uri,
+                                   db_name,
                                    username=db_username,
                                    password=db_password)
 

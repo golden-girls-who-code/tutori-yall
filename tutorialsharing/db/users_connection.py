@@ -5,17 +5,17 @@ from tutorialsharing.db.db_connection import DBConnection
 
 class UsersConnection(DBConnection):
 
-    def __init__(self, uri, username=None, password=None):
+    def __init__(self, uri, db_name, username=None, password=None):
         super(UsersConnection, self).__init__(uri,
+                                              db_name,
                                               'users',
                                               username=username,
                                               password=password)
         self._init_indexes()
 
     def _init_indexes(self):
-        pass
-        #self.connection.create_index([('userid', ASCENDING)], unique=True)
-        #self.connection.create_index([('years_of_development', ASCENDING)])
+        self.connection.create_index([('userid', ASCENDING)], unique=True)
+        self.connection.create_index([('years_of_development', ASCENDING)])
 
     def save_user(self,
                   userid,

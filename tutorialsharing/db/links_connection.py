@@ -7,19 +7,19 @@ from tutorialsharing.db.users_connection import UsersConnection
 
 class LinksConnection(DBConnection):
 
-    def __init__(self, uri, username=None, password=None):
+    def __init__(self, uri, db_name, username=None, password=None):
         super(LinksConnection, self).__init__(uri,
+                                              db_name,
                                               'links',
                                               username=username,
                                               password=password)
 
-        self._users_connection = UsersConnection(uri)
+        self._users_connection = UsersConnection(uri, db_name)
         self._init_indexes()
 
     def _init_indexes(self):
-        pass
-        #self.connection.create_index([('userid', ASCENDING)])
-        #self.connection.create_index([('tags', ASCENDING)])
+        self.connection.create_index([('userid', ASCENDING)])
+        self.connection.create_index([('tags', ASCENDING)])
 
     def save_link(self, userid, title, url, tags, description=None):
         """ Creates or updates a link.
