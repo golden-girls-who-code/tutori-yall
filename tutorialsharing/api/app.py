@@ -1,5 +1,5 @@
-from flask import Flask
-from flask_cors import CORS
+from flask import Flask, make_response
+from flask_cors import CORS, cross_origin
 
 from tutorialsharing.api.links import links_api
 from tutorialsharing.api.users import users_api
@@ -17,3 +17,4 @@ CORS(app)
 def get_home():
     return "WELCOME"
     # get links associated with a user
+
