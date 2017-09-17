@@ -59,4 +59,4 @@ class UsersConnection(DBConnection):
         similar_users = self.connection.find(query)
 
         # TODO: don't want to return the original user info
-        return users
+        return similar_users

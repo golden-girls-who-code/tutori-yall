@@ -2,12 +2,14 @@ from bson.objectid import ObjectId
 from pymongo import ASCENDING
 
 from tutorialsharing.db.db_connection import DBConnection
+from tutorialsharing.db.users_connection import UsersConnection
 
 
 class LinksConnection(DBConnection):
 
     def __init__(self, uri):
         super(LinksConnection, self).__init__(uri, 'links')
+        self._users_connection = UsersConnection(uri)
         self._init_indexes()
 
     def _init_indexes(self):
@@ -44,8 +46,6 @@ class LinksConnection(DBConnection):
     def get_links(self, userid, tags=None, limit=100):
         query = {'userid': userid}
 
-        # TODO: get similar users first
-
         if tags:
             # this is an AND operation meaning
             # all tags must be contained in the tags field
@@ -53,6 +53,31 @@ class LinksConnection(DBConnection):
 
         cursor = self.connection.find(query).limit(limit)
         return cursor
+
+    def get_links_of_similar_users(self, userid, tags=None, limit=100):
+        query = {'userid': userid}
+
+        if tags:
+            # this is an AND operation meaning
+            # all tags must be contained in the tags field
+            query = {'tags': {'$all': tags}}
+
+        # TODO: revisit this, this is really bad code
+        links = []
+        user_cursor = self._users_connection.get_similar_users(userid)
+
+        for user in user_cursor:
+            other_userid = user['userid']
+            if other_userid == userid:
+                continue
+
+            query['userid'] = other_userid
+            cursor = self.connection.find(query).limit(limit)
+
+            for link in cursor:
+                links.append(link)
+
+        return links
 
     def delete_link(self, object_id):
         query = {'_id': ObjectId(object_id)}

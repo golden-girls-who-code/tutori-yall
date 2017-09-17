@@ -47,6 +47,21 @@ def get_links(userid):
     return json_util.dumps(list(cursor))
 
 
+@links_api.route('/get_other_users_links/<userid>', methods=['GET'])
+def get_other_users_links(userid):
+
+    tags = request.args.get('tags')
+    if tags:
+        tags = tags.split(',')
+
+    limit = int(request.args.get('limit', 100))
+
+    cursor = links_connection.get_links_of_similar_users(userid,
+                                                         tags=tags,
+                                                         limit=limit)
+    return json_util.dumps(list(cursor))
+
+
 @links_api.route('/links', methods=['PUT'])
 def update_link():
     pass
