@@ -1,10 +1,7 @@
 from bson import json_util
 from flask import Blueprint, request
 
-try:
-    from tutorialsharing.override_config import db_uri
-except:
-    from tutorialsharing.config import db_uri
+from tutorialsharing.config import db_uri
 from tutorialsharing.db.links_connection import LinksConnection
 
 

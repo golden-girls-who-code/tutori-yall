@@ -1,4 +1,6 @@
+import os
 
 
-
-db_uri = 'mongodb://heroku_2nvhxqjw:bclaeaoosonv0e4vfanrhtkht0@ds013898.mlab.com:13898/heroku_2nvhxqjw'
+db_uri = os.environ.get('MONGODB_URI')
+if not db_uri:
+    db_uri = 'mongodb://localhost:27017'

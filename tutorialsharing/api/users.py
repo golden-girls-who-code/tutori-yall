@@ -10,10 +10,7 @@ except:
     client_secret = os.environ['AUTHCLIENT']
     client_id = os.environ['AUTHCLIENTID']
 
-try:
-    from tutorialsharing.override_config import db_uri
-except:
-    from tutorialsharing.config import db_uri
+from tutorialsharing.config import db_uri
 from tutorialsharing.db.users_connection import UsersConnection
 
 
