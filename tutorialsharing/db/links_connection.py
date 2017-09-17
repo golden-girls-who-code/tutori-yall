@@ -54,6 +54,17 @@ class LinksConnection(DBConnection):
         cursor = self.connection.find(query).limit(limit)
         return cursor
 
+    def get_all_links(self, tags=None, limit=100):
+        query = {}
+
+        if tags:
+            # this is an AND operation meaning
+            # all tags must be contained in the tags field
+            query = {'tags': {'$all': tags}}
+
+        cursor = self.connection.find(query).limit(limit)
+        return cursor
+
     def get_links_of_similar_users(self, userid, tags=None, limit=100):
         query = {'userid': userid}
 

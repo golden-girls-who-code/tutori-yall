@@ -35,7 +35,7 @@ def create_link(userid):
 
 
 @links_api.route('/links/<userid>', methods=['GET'])
-def get_links(userid):
+def get_links_by_user_id(userid):
 
     tags = request.args.get('tags')
     if tags:
@@ -44,6 +44,19 @@ def get_links(userid):
     limit = int(request.args.get('limit', 100))
 
     cursor = links_connection.get_links(userid, tags=tags, limit=limit)
+    return json_util.dumps(list(cursor))
+
+
+@links_api.route('/links', methods=['GET'])
+def get_all_links():
+
+    tags = request.args.get('tags')
+    if tags:
+        tags = tags.split(',')
+
+    limit = int(request.args.get('limit', 100))
+
+    cursor = links_connection.get_all_links(tags=tags, limit=limit)
     return json_util.dumps(list(cursor))
 
 
